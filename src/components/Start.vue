@@ -7,10 +7,159 @@
 			<button v-if="ENQUETEUR" @click="next" class="btn-next">Suivant</button>
 		</div>
 
-		<div>
+		<div id="start" v-if="level === 1">
 			<button @click="startSurvey" class="btn-next">COMMENCER QUESTIONNAIRE</button>
 		</div>
-		<div>
+
+		<div id="poste" v-if="level === 2">
+			<h1> Poste </h1>
+			<select v-model="POSTE" class="form-control">
+				<option v-for="option in poste" :key="option.id" :value="option.output">
+					{{ option.text }}
+				</option>
+			</select>
+			<button v-if="POSTE" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="types" v-if="level === 3">
+			<h1> type de vehicule </h1>
+			<select v-model="TYPE" class="form-control">
+				<option v-for="option in types" :key="option.id" :value="option.output">
+					{{ option.text }}
+				</option>
+			</select>
+			<button v-if="TYPE" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="occupants" v-if="level === 4 && TYPE === 1">
+			<h1> Nombre d'occupants </h1>
+			<select v-model="OCCUPANTS" class="form-control">
+				<option v-for="option in occupants" :key="option.id" :value="option.output">
+					{{ option.text }}
+				</option>
+			</select>
+			<button v-if="OCCUPANTS" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="origine" v-if="(level === 4 && TYPE === 2) ||(level === 5 && TYPE === 1)">
+			<h1>D'ou venez vous ? Commune et departement (pays si etranger) si VL. Dernier point de
+				chargement/dechargement si PL</h1>
+			<div>
+				<CommuneSelector v-model="origine" />
+			</div>
+			<div id="rue blain" v-if="origine === 'BLAIN - 44015'">
+				<h1>Précisez de quelle rue à Blain ?</h1>
+				<input class="form-control" type="text" v-model="Origine_rue" placeholder="Precisions">
+			</div>
+			<button v-if="origine" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="motif origine" v-if="level === 6 && TYPE === 1">
+			<h1> Motif origine </h1>
+			<select v-model="MOTIF_ORIGINE" class="form-control">
+				<option v-for="option in motif" :key="option.id" :value="option.output">
+					{{ option.text }}
+				</option>
+			</select>
+			<button v-if="MOTIF_ORIGINE" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="destination" v-if="(level === 7 && TYPE === 1) || (level === 5 && TYPE === 2)">
+			<h1>Ou allez vous ? Commune et departement (pays si etranger) si VL. Dernier point de
+				chargement/dechargement si PL</h1>
+			<div>
+				<CommuneSelector v-model="destination" />
+			</div>
+			<div id="rue blain" v-if="destination === 'BLAIN - 44015'">
+				<h1>Précisez de quelle rue à Blain ?</h1>
+				<input class="form-control" type="text" v-model="destination_rue" placeholder="Precisions">
+			</div>
+			<button v-if="destination" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="motif destination" v-if="level === 8 && TYPE === 1">
+			<h1> Motif destination </h1>
+			<select v-model="MOTIF_DESTINATION" class="form-control">
+				<option v-for="option in motif" :key="option.id" :value="option.output">
+					{{ option.text }}
+				</option>
+			</select>
+			<button v-if="MOTIF_DESTINATION" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="q12" v-if="(level === 9 && TYPE === 1 && OCCUPANTS > 1)">
+			<h1> Faites vous du covoiturage actuellement?</h1>
+			<select v-model="Q12" class="form-control">
+				<option v-for="option in q12" :key="option.id" :value="option.output">
+					{{ option.text }}
+				</option>
+			</select>
+			<button v-if="Q12" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="q13" v-if="(level === 10 && TYPE === 1 && Q12 === '1') ">
+			<h1> Est-ce du covoiturage</h1>
+			<select v-model="Q13" class="form-control">
+				<option v-for="option in q13" :key="option.id" :value="option.output">
+					{{ option.text }}
+				</option>
+			</select>
+			<button v-if="Q13" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="q14" v-if="(level === 10 && TYPE === 1 && Q12 === '2') || level === 11 && TYPE === 1 && Q12 === '1'">
+			<h1> Etes-vous ?</h1>
+			<select v-model="Q14" class="form-control">
+				<option v-for="option in q14" :key="option.id" :value="option.output">
+					{{ option.text }}
+				</option>
+			</select>
+			<button v-if="Q14" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="q15" v-if="level === 6 && TYPE === 2">
+			<h1>Poids en tonnes</h1>
+			<input class="form-control" type="text" v-model="Q15"
+				placeholder="Vide = 0 ou alors indiquez le poids en tonne, 1 tonne = 1000kg">
+			<button v-if="Q15" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="q16" v-if="level === 7 && TYPE === 2">
+			<h1> Nature de la marchandise si chargé</h1>
+			<select v-model="Q16" class="form-control">
+				<option v-for="option in q16" :key="option.id" :value="option.output">
+					{{ option.text }}
+				</option>
+			</select>
+			<button v-if="Q16" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="q17"
+			v-if="(level === 8 && TYPE === 2) || (level === 11 && TYPE === 1 && Q12 === '2') || level === 12 && TYPE === 1 && Q12 === '1'">
+			<h1> Avez-vous prévu un arret dans un commerce de Blain ou La Grigonnais</h1>
+			<select v-model="Q17" class="form-control">
+				<option v-for="option in q17" :key="option.id" :value="option.output">
+					{{ option.text }}
+				</option>
+			</select>
+			<button v-if="Q17" @click="next" class="btn-next">Suivant</button>
+			<button @click="back" class="btn-return">retour</button>
+		</div>
+
+		<div id="end"
+			v-if="(level === 9 && TYPE === 2) || (level === 12 && TYPE === 1 && Q12 === '2') || level === 13 && TYPE === 1 && Q12 === '1'">
 			<button @click="submitSurvey" class="btn-next">FINIR QUESTIONNAIRE</button>
 			<button @click="back" class="btn-return">retour</button>
 		</div>
@@ -26,7 +175,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { } from "./reponses";
+import { poste, types, motif, occupants, q12, q13, q14, q16, q17 } from "./reponses";
 import GareSelector from "./GareSelector.vue";
 import CommuneSelector from './CommuneSelector.vue';
 import { db } from "../firebaseConfig";
@@ -38,6 +187,21 @@ const surveyCollectionRef = collection(db, "Blain");
 const level = ref(0);
 const startDate = ref('');
 const ENQUETEUR = ref('');
+const POSTE = ref('');
+const TYPE = ref('');
+const OCCUPANTS = ref('');
+const origine = ref('');
+const Origine_rue = ref('');
+const MOTIF_ORIGINE = ref('');
+const destination = ref('');
+const destination_rue = ref('');
+const MOTIF_DESTINATION = ref('');
+const Q12 = ref('');
+const Q13 = ref('');
+const Q14 = ref('');
+const Q15 = ref('');
+const Q16 = ref('');
+const Q17 = ref('');
 
 
 
@@ -75,10 +239,41 @@ const submitSurvey = async () => {
 		JOUR: new Date().toLocaleDateString("fr-FR", { weekday: 'long' }),
 		ENQUETEUR: ENQUETEUR.value,
 		HEURE_FIN: new Date().toLocaleTimeString("fr-FR").slice(0, 8),
+		POSTE: POSTE.value,
+		TYPE: TYPE.value,
+		OCCUPANTS: OCCUPANTS.value,
+		ORIGINE: origine.value,
+		ORIGINE_RUE: Origine_rue.value,
+		MOTIF_ORIGINE: MOTIF_ORIGINE.value,
+		DESTINATION: destination.value,
+		DESTINATION_RUE: destination_rue.value,
+		MOTIF_DESTINATION: MOTIF_DESTINATION.value,
+		Q12: Q12.value,
+		Q13: Q13.value,
+		Q14: Q14.value,
+		Q15: Q15.value,
+		Q16: Q16.value,
+		Q17: Q17.value,
 
 	});
 	level.value = 1;
 	startDate.value = "";
+	POSTE.value = "";
+	TYPE.value = "";
+	OCCUPANTS.value = "";
+	origine.value = "";
+	Origine_rue.value = "";
+	MOTIF_ORIGINE.value = "";
+	destination.value = "";
+	destination_rue.value = "";
+	MOTIF_DESTINATION.value = "";
+	Q12.value = "";
+	Q13.value = "";
+	Q14.value = "";
+	Q15.value = "";
+	Q16.value = "";
+	Q17.value = "";
+
 	getDocCount();
 };
 
@@ -96,6 +291,21 @@ const downloadData = async () => {
 			JOUR: "JOUR",
 			HEURE_DEBUT: "HEURE_DEBUT",
 			HEURE_FIN: "HEURE_FIN",
+			POSTE: "POSTE",
+			TYPE: "TYPE",
+			OCCUPANTS: "OCCUPANTS",
+			ORIGINE: "ORIGINE",
+			ORIGINE_RUE: "ORIGINE_RUE",
+			MOTIF_ORIGINE: "MOTIF_ORIGINE",
+			DESTINATION: "DESTINATION",
+			DESTINATION_RUE: "DESTINATION_RUE",
+			MOTIF_DESTINATION: "MOTIF_DESTINATION",
+			Q12: "Q12",
+			Q13: "Q13",
+			Q14: "Q14",
+			Q15: "Q15",
+			Q16: "Q16",
+			Q17: "Q17",
 		};
 
 		// Initialize maxWidths with header lengths
@@ -112,6 +322,21 @@ const downloadData = async () => {
 				JOUR: docData.JOUR || "",
 				HEURE_DEBUT: docData.HEURE_DEBUT || "",
 				HEURE_FIN: docData.HEURE_FIN || "",
+				POSTE: docData.POSTE || "",
+				TYPE: docData.TYPE || "",
+				OCCUPANTS: docData.OCCUPANTS || "",
+				ORIGINE: docData.ORIGINE || "",
+				ORIGINE_RUE: docData.ORIGINE_RUE || "",
+				MOTIF_ORIGINE: docData.MOTIF_ORIGINE || "",
+				DESTINATION: docData.DESTINATION || "",
+				DESTINATION_RUE: docData.DESTINATION_RUE || "",
+				MOTIF_DESTINATION: docData.MOTIF_DESTINATION || "",
+				Q12: docData.Q12 || "",
+				Q13: docData.Q13 || "",
+				Q14: docData.Q14 || "",
+				Q15: docData.Q15 || "",
+				Q16: docData.Q16 || "",
+				Q17: docData.Q17 || "",
 			};
 			data.push(mappedData);
 			// Update maxWidths for each key in mappedData
