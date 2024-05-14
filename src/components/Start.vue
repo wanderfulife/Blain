@@ -45,7 +45,7 @@
 		</div>
 
 		<div id="origine" v-if="(level === 4 && TYPE === 2) ||(level === 5 && TYPE === 1)">
-			<h1>D'ou venez vous ? Commune et departement (pays si etranger) si VL. Dernier point de
+			<h1>D'où venez vous ? Commune et departement (pays si etranger) si VL. Dernier point de
 				chargement/dechargement si PL</h1>
 			<div>
 				<CommuneSelector v-model="origine" />
@@ -70,7 +70,7 @@
 		</div>
 
 		<div id="destination" v-if="(level === 7 && TYPE === 1) || (level === 5 && TYPE === 2)">
-			<h1>Ou allez vous ? Commune et departement (pays si etranger) si VL. Dernier point de
+			<h1>Où allez vous ? Commune et departement (pays si etranger) si VL. Dernier point de
 				chargement/dechargement si PL</h1>
 			<div>
 				<CommuneSelector v-model="destination" />
@@ -95,7 +95,7 @@
 		</div>
 
 		<div id="q12" v-if="(level === 9 && TYPE === 1 && OCCUPANTS > 1)">
-			<h1> Faites vous du covoiturage actuellement?</h1>
+			<h1>Faites vous du covoiturage actuellement?</h1>
 			<select v-model="Q12" class="form-control">
 				<option v-for="option in q12" :key="option.id" :value="option.output">
 					{{ option.text }}
