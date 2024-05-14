@@ -116,7 +116,8 @@
 			<button @click="back" class="btn-return">retour</button>
 		</div>
 
-		<div id="q14" v-if="(level === 10 && TYPE === 1 && Q12 === '2') || level === 11 && TYPE === 1 && Q12 === '1'">
+		<div id="q14"
+			v-if="(level === 10 && TYPE === 1 && Q12 === '2') || (level === 9 && TYPE === 1 && OCCUPANTS === 1) || level === 11 && TYPE === 1 && Q12 === '1'">
 			<h1> Etes-vous ?</h1>
 			<select v-model="Q14" class="form-control">
 				<option v-for="option in q14" :key="option.id" :value="option.output">
@@ -147,7 +148,7 @@
 		</div>
 
 		<div id="q17"
-			v-if="(level === 8 && TYPE === 2) || (level === 11 && TYPE === 1 && Q12 === '2') || level === 12 && TYPE === 1 && Q12 === '1'">
+			v-if="(level === 8 && TYPE === 2) || (level === 11 && TYPE === 1 && Q12 === '2') || (level === 10 && TYPE === 1 && OCCUPANTS === 1) || level === 12 && TYPE === 1 && Q12 === '1'">
 			<h1> Avez-vous prévu un arret dans un commerce de Blain ou La Grigonnais</h1>
 			<select v-model="Q17" class="form-control">
 				<option v-for="option in q17" :key="option.id" :value="option.output">
@@ -159,13 +160,13 @@
 		</div>
 
 		<div id="end"
-			v-if="(level === 9 && TYPE === 2) || (level === 9 && TYPE === 1 && OCCUPANTS === 1)|| (level === 12 && TYPE === 1 && Q12 === '2') || level === 13 && TYPE === 1 && Q12 === '1'">
+			v-if="(level === 9 && TYPE === 2) || (level === 11 && TYPE === 1 && OCCUPANTS === 1)|| (level === 12 && TYPE === 1 && Q12 === '2') || level === 13 && TYPE === 1 && Q12 === '1'">
 			<button @click="submitSurvey" class="btn-next">FINIR QUESTIONNAIRE</button>
 			<button @click="back" class="btn-return">retour</button>
 		</div>
 		<img class="logo" src="../assets/Alycelogo.webp" alt="Logo Alyce">
 
-		<!-- <button class="btn-fin" @click="downloadData">download DATA</button> -->
+		<button class="btn-fin" @click="downloadData">download DATA</button>
 
 	</div>
 	<div>
