@@ -18,20 +18,7 @@ const poste = [
 
 const types = [
 	{ id: 1, output: 1, text: "VL" },
-	{ id: 2, output: 1, text: "VL - caravane ou remorque" },
-	{ id: 3, output: 1, text: "VL - Camping-Car" },
-	{
-		id: 4,
-		output: 1,
-		text: "VL - Fourgonnettes et utilitaires transportant du matériel (artisan…)",
-	},
-	{
-		id: 5,
-		output: 2,
-		text: "PL - Fourgonnettes et utilitaires transportant de la marchandise",
-	},
-	{ id: 6, output: 2, text: "PL - porteur" },
-	{ id: 7, output: 2, text: "PL - Autocar privé" },
+	{ id: 2, output: 2, text: "PL" },
 ];
 
 const occupants = [
