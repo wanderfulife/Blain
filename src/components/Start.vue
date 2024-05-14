@@ -159,7 +159,7 @@
 		</div>
 
 		<div id="end"
-			v-if="(level === 9 && TYPE === 2) || (level === 12 && TYPE === 1 && Q12 === '2') || level === 13 && TYPE === 1 && Q12 === '1'">
+			v-if="(level === 9 && TYPE === 2) || (level === 9 && TYPE === 1 && OCCUPANTS === 1)|| (level === 12 && TYPE === 1 && Q12 === '2') || level === 13 && TYPE === 1 && Q12 === '1'">
 			<button @click="submitSurvey" class="btn-next">FINIR QUESTIONNAIRE</button>
 			<button @click="back" class="btn-return">retour</button>
 		</div>
